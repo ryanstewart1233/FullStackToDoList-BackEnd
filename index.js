@@ -107,6 +107,24 @@ app.route("/todos/:user_id/:todo_id")
         )
 
     })
+    .patch(function (req, res) {
+        ToDo.updateOne({
+            _id: req.params.todo_id,
+            user_id: req.params.user_id
+
+        }, {
+            content: req.body.content,
+            updated_at: getDate()
+        }, function (err, results) {
+            if (err) {
+                res.send(err)
+                console.log("Update Error ", err)
+            } else {
+                res.send(results)
+                console.log("Updated item with ID of : ", req.params.todo_id)
+            }
+        })
+    })
 
 
 
