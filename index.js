@@ -59,8 +59,6 @@ const newTodo = new ToDo({
 // newTodo.save()
 
 
-//todo -- app.post, app.put, app.patch, app.delete
-
 //REST API calls for all ToDos
 app.route("/todos/:user_id")
     .get(function (req, res) { //gets back all ToDo items for a given userId
@@ -108,22 +106,22 @@ app.route("/todos/:user_id/:todo_id")
 
     })
     .patch(function (req, res) {
-        ToDo.updateOne({
+        ToDo.findOneAndUpdate({
             _id: req.params.todo_id,
             user_id: req.params.user_id
-
         }, {
-            content: req.body.content,
-            updated_at: getDate()
-        }, function (err, results) {
-            if (err) {
-                res.send(err)
-                console.log("Update Error ", err)
-            } else {
-                res.send(results)
-                console.log("Updated item with ID of : ", req.params.todo_id)
-            }
-        })
+            $set: req.body, //using this line of code means that only what is sent is updated. So if completed is sent then thats updated, where as if just content is sent then that is updated
+            updated_at: getDate() //the updated_at is ran every time to the date is always recent
+        }, { new: true },
+            function (err, results) {
+                if (err) {
+                    res.send(err)
+                    console.log("Update Error ", err)
+                } else {
+                    res.send(results)
+                    console.log("Updated item with ID of : ", req.params.todo_id)
+                }
+            })
     })
 
 

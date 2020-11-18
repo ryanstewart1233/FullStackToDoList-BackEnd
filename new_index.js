@@ -27,7 +27,7 @@ mongoose.connect("mongodb://localhost:27017/toDoTogetherDB", {
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function () {
-    //shows that we're connected to online MongoDB.
+    //shows that we're connected to MongoDB.
     console.log("Connected")
 });
 
