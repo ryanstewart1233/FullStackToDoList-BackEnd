@@ -11,14 +11,29 @@ const Schema = mongoose.Schema
 //     }
 // })
 
+//user_id below will now become list id
+
 const ToDoSchema = new Schema({
-    user_id: String,
     content: String,
     completed: Boolean,
     updated_at: Date
 
 })
 
-module.exports = ToDoSchema
+const UserSchema = new Schema({
+    user_id: String
+})
+
+const ListSchema = new Schema({
+    creator_id: String,
+    list_name: String,
+    updated_at: Date,
+    todo_items: [ToDoSchema],
+    allowed_users: [UserSchema]
+})
+
+exports.ListSchema = ListSchema
+exports.UserSchema = UserSchema
+exports.ToDoSchema = ToDoSchema
 
 //this file sets up the connection to mongoDB online
