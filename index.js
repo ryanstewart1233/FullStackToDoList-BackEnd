@@ -235,20 +235,41 @@ app.route("/todos/:user_id/:list_id/:todo_id")
     })
     .patch(function (req, res) {
 
+        const setCompleted = () => {
+            if (req.body.completed) {
+                console.log(req.body.completed)
+                return req.body.completed
+            } else {
+                return false
+            }
+        }
+        function setUpdate() { //prevents content being overridden if only updated is passed into the patch request
+            if (req.body.content) {
+                return {
+                    $set:
+                    {
+                        "todo_items.$.content": req.body.content,
+                        "todo_items.$.completed": setCompleted(),
+                        "todo_items.$.updated_at": getDate()
+                    }
+                }
+            } else return {
+                $set:
+                {
+                    "todo_items.$.completed": setCompleted(),
+                    "todo_items.$.updated_at": getDate()
+                }
+            }
+
+        }
+
         ToDoList.findOneAndUpdate(
             {
                 "allowed_users.user_id": req.params.user_id,
                 _id: req.params.list_id,
                 "todo_items._id": req.params.todo_id
             },
-            {
-                $set:
-                {
-                    "todo_items.$.content": req.body.content,
-                    "todo_items.$.completed": false,
-                    "todo_items.$.updated_at": getDate()
-                }
-            },
+            setUpdate(),
             { new: true },
             function (err, results) {
                 if (err) {
