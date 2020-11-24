@@ -26,7 +26,7 @@ const UserSchema = new Schema({
 
 const ListSchema = new Schema({
     creator_id: String,
-    list_name: String,
+    list_name: { type: String, required: true },
     updated_at: Date,
     todo_items: [ToDoSchema],
     allowed_users: [UserSchema]
