@@ -3,7 +3,7 @@ const mongoose = require('mongoose')
 require('dotenv').config()
 
 const express = require("express");
-const cors = require("cors") //handy package to prevent acces errors when attempting to create/delete etc
+const cors = require("cors") //handy package to prevent access errors when attempting to create/delete etc
 const bodyParser = require("body-parser");
 
 const PORT = process.env.PORT || 3001;
@@ -27,15 +27,15 @@ const ToDo = mongoose.model("Todo", ToDoSchema)
 const ToDoList = mongoose.model("List", ListSchema)
 const User = mongoose.model("User", UserSchema)
 
-// mongoose.connect(`mongodb+srv://Admin-RyanS:${process.env.MONGO_CLOUD_PASSWORD}@todotogether.acizm.mongodb.net/todotogether?retryWrites=true&w=majority`, {
-//     useNewUrlParser: true,
-//     useUnifiedTopology: true
-// }) //this one connects to online
-
-mongoose.connect("mongodb://localhost:27017/toDoTogetherDB", {
+mongoose.connect(`mongodb+srv://Admin-RyanS:${process.env.MONGO_CLOUD_PASSWORD}@todotogether.acizm.mongodb.net/todotogether?retryWrites=true&w=majority`, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-})
+}) //this one connects to online
+
+// mongoose.connect("mongodb://localhost:27017/toDoTogetherDB", {
+//     useNewUrlParser: true,
+//     useUnifiedTopology: true
+// }) //this one connects to local mongoDb server
 
 //below line is needed to avoid depreciation warning for findOneAndUpdate()
 mongoose.set('useFindAndModify', false);
@@ -85,82 +85,6 @@ const newList = new ToDoList({
 
 // newTodo.save()
 // newList.save()
-
-
-
-//everything below is blanked out just for reference
-// //REST API calls for all ToDos
-// app.route("/todos/:user_id")
-//     .get(function (req, res) { //gets back all ToDo items for a given userId
-//         ToDo.find({ user_id: req.params.user_id }, function (err, results) {
-//             if (err) {
-//                 res.send(err)
-//             } else {
-//                 console.log("Sent the results of find all for certain userId", req.params.user_id);
-//                 res.send(results)
-//             }
-//         })
-//     })
-//     .post(function (req, res) { //creates a new toDoItem
-//         const newToDo = new ToDo({
-//             user_id: req.params.user_id,
-//             content: req.body.content,
-//             completed: false,
-//             updated_at: getDate()
-//         })
-//         newToDo.save(function (err, results) {
-//             if (err) {
-//                 res.send(err)
-//             } else {
-//                 console.log("Successfully added new toDoItem")
-//                 res.send(results)
-//             }
-//         })
-//     })
-
-// app.route("/todos/:user_id/:todo_id")
-//     .delete(function (req, res) { //delete specific todo for specific user
-//         ToDo.deleteOne({
-//             _id: req.params.todo_id,
-//             user_id: req.params.user_id
-//         }, function (err) {
-//             if (err) {
-//                 res.send(err)
-//                 console.log("delete error: ", err)
-//             } else {
-//                 res.send("ToDoItem Deleted")
-//                 console.log("deleted to do with id of ", req.params.todo_id)
-//             }
-//         }
-//         )
-
-//     })
-//     .patch(function (req, res) {
-//         ToDo.findOneAndUpdate({
-//             _id: req.params.todo_id,
-//             user_id: req.params.user_id
-//         }, {
-//             $set: req.body, //using this line of code means that only what is sent is updated. So if completed is sent then thats updated, where as if just content is sent then that is updated
-//             updated_at: getDate() //the updated_at is ran every time to the date is always recent
-//         }, { new: true }, //by using new: true, this then send the new updated doc back as a response
-//             function (err, results) {
-//                 if (err) {
-//                     res.send(err)
-//                     console.log("Update Error ", err)
-//                 } else {
-//                     res.send(results)
-//                     console.log("Updated item with ID of : ", req.params.todo_id)
-//                 }
-//             })
-//     })
-
-
-
-
-
-
-
-
 
 //REST API calls for all ToDos
 app.route("/todos/:user_id/:list_id")
