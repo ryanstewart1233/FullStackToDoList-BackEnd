@@ -1,6 +1,5 @@
 const mongoose = require("mongoose");
-const Schema = mongoose.Schema
-
+const Schema = mongoose.Schema;
 
 // const ToDoListSchema = new Schema({
 //     creator_id: String,
@@ -14,26 +13,24 @@ const Schema = mongoose.Schema
 //user_id below will now become list id
 
 const ToDoSchema = new Schema({
-    content: String,
-    completed: Boolean,
-    updated_at: Date
+  content: String,
+  completed: Boolean,
+  due_date: Date,
+});
 
-})
-
-const UserSchema = new Schema({
-    user_id: String
-})
+// const UserSchema = new Schema({ // add back when trying to implement multiple users per lists
+//     user_id: String
+// })
 
 const ListSchema = new Schema({
-    creator_id: String,
-    list_name: { type: String, required: true },
-    updated_at: Date,
-    todo_items: [ToDoSchema],
-    allowed_users: [UserSchema]
-})
+  creator_id: String,
+  list_name: { type: String, required: true },
+  updated_at: Date,
+  todo_items: [ToDoSchema],
+});
 
-exports.ListSchema = ListSchema
-exports.UserSchema = UserSchema
-exports.ToDoSchema = ToDoSchema
+exports.ListSchema = ListSchema;
+// exports.UserSchema = UserSchema;
+exports.ToDoSchema = ToDoSchema;
 
 //this file sets up the connection to mongoDB online
